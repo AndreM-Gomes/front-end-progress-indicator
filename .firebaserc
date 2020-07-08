@@ -1,0 +1,11 @@
+{
+  "targets": {
+    "progress-indicator-bd951": {
+      "hosting": {
+        "progress-indicator": [
+          "progress-indicator-bd951"
+        ]
+      }
+    }
+  }
+}

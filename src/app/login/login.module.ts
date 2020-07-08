@@ -1,3 +1,4 @@
+import { AngularFireAuthModule, AngularFireAuth } from '@angular/fire/auth';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
@@ -9,7 +10,7 @@ import { LoginComponent } from './login.component';
   declarations: [LoginComponent],
   imports: [
     CommonModule,
-    LoginRoutingModule
-  ]
+    LoginRoutingModule,
+  ],
 })
 export class LoginModule { }

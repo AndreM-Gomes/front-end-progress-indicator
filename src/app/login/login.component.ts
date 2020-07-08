@@ -1,4 +1,7 @@
+import { UserService } from './../profile/user.service';
+import { AngularFireAuth } from '@angular/fire/auth';
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -7,9 +10,18 @@ import { Component, OnInit } from '@angular/core';
 })
 export class LoginComponent implements OnInit {
 
-  constructor() { }
+  constructor(
+    private userService: UserService,
+    private router: Router
+  ) { }
 
   ngOnInit(): void {
   }
 
+  async signInWithGoogle(){
+    const user = await this.userService.googleSignIn();
+    if (user){
+      this.router.navigate(['/home']);
+    }
+  }
 }
