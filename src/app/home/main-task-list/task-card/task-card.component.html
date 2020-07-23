@@ -1,18 +1,16 @@
 <div class="progress-card">
-  <div class="task-title">Read Clean Code</div>
+  <div class="task-title">{{taskTitle}}</div>
   <div class="progress-indicator">
-    <progress max="100" value="10"></progress>
-    10/100
+    <progress [max]="progress[1]" [value]="progress[0]"></progress>
+    {{progress[0]}}/{{progress[1]}}
   </div>
   <details>
     <summary class="task-description">
-      Read Clean Code and resume
-      main ideas from that
+      {{taskDescription}}
     </summary>
     <div class="task-details">
         <ol>
-          <li><input type="checkbox" name="" id="">Read Book </li>
-          <li><input type="checkbox" name="" id="">Make resume </li>
+          <li *ngFor="let taskDetail of taskDetails" ><input type="checkbox" name="" id="">{{taskDetail}}</li>
         </ol>
       <button class="delete">Delete</button>
       <button>Edit</button>

@@ -1,4 +1,12 @@
-<app-task-card></app-task-card>
+<ng-container *ngFor="let task of tasks">
+  <app-task-card
+  [taskTitle]="task.taskTitle"
+  [progress]="task.progress"
+  [taskDescription]="task.taskDescription"
+  [taskDetails]="task.taskDetails"
+></app-task-card>
+</ng-container>
+
 <div class="progress-card">
   <div class="task-title">Read Clean Code</div>
   <div class="progress-indicator">

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 
 @Component({
   selector: 'app-task-card',
@@ -6,7 +6,10 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./task-card.component.scss']
 })
 export class TaskCardComponent implements OnInit {
-
+  @Input() taskTitle: string;
+  @Input() progress: [number, number];
+  @Input() taskDescription: string;
+  @Input() taskDetails: string[];
 
   constructor() { }
 
