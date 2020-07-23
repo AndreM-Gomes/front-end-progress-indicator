@@ -13,10 +13,9 @@ export class LogedGuard implements CanActivate {
     state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
     return this.userService.user$.pipe(
       take(1),
-      map(user => !!user),
-      tap( loggedIn => {
-        if (loggedIn) {
-          console.log('Already logged');
+      map(user => !user),
+      tap( notLogged => {
+        if (!notLogged){
           this.router.navigate(['/home']);
         }
       })
