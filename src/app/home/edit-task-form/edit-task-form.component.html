@@ -1,0 +1,25 @@
+<div class="container">
+  <div class="wraper">
+    <label for="taskTItle">
+      Task title:
+      <input type="text" [formControl]="taskTitle" name="taskTitle" id="taskTitle" [value]="taskTitle.value">
+    </label>
+    <label for="taskDescription">
+      Task Description:
+      <input type="text" [formControl]="taskDescription" name="taskDescription" id="taskDescription" [value]="taskDescription.value">
+    </label>
+
+    <label for="taskDetails" class="details">
+      Task Details:
+      <label for="newTaskDetails">
+        <input type="text" (keydown)="addNewTaskOnEnter($event)" [formControl]="newTaskDetail" [value]="newTaskDetail.value">
+        <button id="addNewTaskDetail" (click)="addNewTaskDetail()">New Detail</button>
+      </label>
+      <ng-container  *ngFor="let detail of taskDetails">
+        <input  type="text" [formControl]="detail" [value]="detail.value">
+      </ng-container>
+    </label>
+  <button class="close-button" (click)="closeForm()">Close</button>
+  <button id="update-button" (click)="update()">Update</button>
+  </div>
+</div>

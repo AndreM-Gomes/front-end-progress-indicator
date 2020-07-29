@@ -64,3 +64,11 @@ details[open] summary ~ * {
   0%    {opacity: 0; margin-right: -10px;}
   100%  {opacity: 1; margin-right: 0px}
 }
+.edit-form{
+  position: absolute;
+  top: 0;
+
+  input[type=text]{
+    border: 1px black solid;
+  }
+}

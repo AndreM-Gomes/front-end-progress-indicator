@@ -137,3 +137,11 @@ aside{
   font-size: 40px;
   border: none;
 }
+.edit-task-form{
+  position: absolute;
+  width: 100vw;
+  height: 90vh;
+  backdrop-filter: blur(3px);
+  background: none;
+
+}

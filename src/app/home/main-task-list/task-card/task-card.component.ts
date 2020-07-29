@@ -1,4 +1,5 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { Task } from '../../task.type';
 
 @Component({
   selector: 'app-task-card',
@@ -6,14 +7,23 @@ import { Component, OnInit, Input } from '@angular/core';
   styleUrls: ['./task-card.component.scss']
 })
 export class TaskCardComponent implements OnInit {
-  @Input() taskTitle: string;
-  @Input() progress: [number, number];
-  @Input() taskDescription: string;
-  @Input() taskDetails: string[];
+  @Input() task: Task;
+  @Output() deleteTaskEvent: EventEmitter<number>;
+  @Output() editTaskEvent: EventEmitter<Task>;
 
-  constructor() { }
+  constructor() {
+    this.deleteTaskEvent = new EventEmitter<number>();
+    this.editTaskEvent = new EventEmitter<Task>();
+  }
 
   ngOnInit(): void {
   }
 
+  deleteTask(id: number){
+    this.deleteTaskEvent.emit(id);
+  }
+
+  openForm(task: Task){
+    this.editTaskEvent.emit(task);
+  }
 }

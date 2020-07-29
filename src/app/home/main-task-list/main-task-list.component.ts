@@ -1,4 +1,6 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Subscription, Observable } from 'rxjs';
+import { TaskService } from './../task.service';
+import { Component, OnInit, Input, OnDestroy, Output, EventEmitter } from '@angular/core';
 import { Task } from '../task.type';
 
 @Component({
@@ -7,17 +9,28 @@ import { Task } from '../task.type';
   styleUrls: ['./main-task-list.component.scss']
 })
 export class MainTaskListComponent implements OnInit {
-  @Input() tasks: Task[] = [
-    {
-      progress: [10, 100],
-      taskDescription: 'Read Clean Code and resume main ideas from that',
-      taskDetails: ['Read a Book', 'Make a resume'],
-      taskTitle: 'Read Clean Code'
-    }
-  ];
-  constructor() { }
+  private taskService: TaskService;
+  @Input() tasks$: Observable<Task[]>;
+  @Output() openEditFormEvent: EventEmitter<Task>;
 
+  constructor(taskService: TaskService) {
+    this.taskService = taskService;
+    this.tasks$ = this.taskService.tasks$;
+    this.openEditFormEvent = new EventEmitter<Task>();
+  }
   ngOnInit(): void {
+    this.openEditFormEvent = new EventEmitter<Task>();
   }
 
+  deleteTask(id: number){
+    this.taskService.deleteTask(id);
+  }
+
+  openEditForm(task: Task){
+    this.openEditFormEvent.emit(task);
+  }
+
+  editTask(task: Task){
+    this.taskService.editForm(task);
+  }
 }
