@@ -39,10 +39,13 @@
     </ul>
   </aside>
   <div *ngIf="showEditForm" class="edit-task-form">
-    <app-edit-task-form (closeFormEvent)="closeEditForm()"></app-edit-task-form>
+    <app-task-form (closeFormEvent)="closeEditForm()" (emitDataEvent)="updateTask($event)"></app-task-form>
   </div>
   <div class="new-task">
-    <button>New Task</button>
+    <button (click)="openNewTaskForm()" >New Task</button>
+  </div>
+  <div *ngIf="showNewTaskForm" class="edit-task-form">
+  <app-task-form (closeFormEvent)="closeNewTaskForm()" (emitDataEvent)="newTask($event)"></app-task-form>
   </div>
   <footer>
 

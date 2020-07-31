@@ -1,34 +1,34 @@
+import { Subtask } from './../subtask.type';
 import { TaskService } from './../task.service';
 import { Task } from './../task.type';
 import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
 import { FormControl } from '@angular/forms';
 
 @Component({
-  selector: 'app-edit-task-form',
-  templateUrl: './edit-task-form.component.html',
-  styleUrls: ['./edit-task-form.component.scss']
+  selector: 'app-task-form',
+  templateUrl: './task-form.component.html',
+  styleUrls: ['./task-form.component.scss']
 })
-export class EditTaskFormComponent implements OnInit {
+export class TaskFormComponent implements OnInit {
 
   @Output() closeFormEvent = new EventEmitter<Task>();
+  @Output() emitDataEvent = new EventEmitter<Task>();
 
   taskTitle: FormControl;
   taskDescription: FormControl;
   taskDetails: FormControl[];
   newTaskDetail: FormControl;
-  taskService: TaskService;
   taskId: number;
 
-  constructor(taskService: TaskService) {
+  constructor(private taskService: TaskService) {
     this.newTaskDetail = new FormControl('');
     this.taskTitle = new FormControl('');
     this.taskDescription = new FormControl('');
-    this.taskService = taskService;
-    this.taskService.editForm$.subscribe( task => {
+    this.taskService.contentForm$.subscribe( task => {
       this.taskId = task.id;
       this.taskTitle.setValue(task.taskTitle);
       this.taskDescription.setValue(task.taskDescription);
-      this.taskDetails = task.taskDetails.map( taskDetail => new FormControl(taskDetail)) || [];
+      this.taskDetails = task.taskDetails.map( taskDetail => new FormControl(taskDetail.name)) || [];
     });
   }
 
@@ -38,12 +38,12 @@ export class EditTaskFormComponent implements OnInit {
     this.closeFormEvent.emit(null);
   }
 
-  update(){
+  emitData(){
     this.closeFormEvent.emit(null);
-    this.taskService.update({
+    this.emitDataEvent.emit({
       id: this.taskId,
       taskDescription: this.taskDescription.value,
-      taskDetails: this.taskDetails.map(taskDetail => taskDetail.value),
+      taskDetails: this.taskDetails.map(taskDetail => { return {completed: false,id:0,name: taskDetail.value}}),
       taskTitle: this.taskTitle.value,
       completed: false
     });

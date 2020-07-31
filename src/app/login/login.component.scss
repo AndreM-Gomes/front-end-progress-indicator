@@ -30,10 +30,10 @@ h1{
   background-size: cover;
   background-repeat: no-repeat;
   background-position: center center;
-  background-image: url('../../assets/signin-assets/google_signin_buttons/web/2x/btn_google_signin_light_normal_web@2x.png');
+  background-image: url('/assets/signin-assets/google_signin_buttons/web/2x/btn_google_signin_light_normal_web@2x.png');
 }
 .sign-in:active{
-  background-image: url('../../assets/signin-assets/google_signin_buttons/web/2x/btn_google_signin_light_pressed_web@2x.png');
+  background-image: url('/assets/signin-assets/google_signin_buttons/web/2x/btn_google_signin_light_pressed_web@2x.png');
 }
 .signin-divisor{
   align-self: center;

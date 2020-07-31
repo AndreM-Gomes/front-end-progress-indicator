@@ -6,11 +6,11 @@ import { CommonModule } from '@angular/common';
 import { HomeRoutingModule } from './home-routing.module';
 import { HomeComponent } from './home.component';
 import { MainTaskListComponent } from './main-task-list/main-task-list.component';
-import { EditTaskFormComponent } from './edit-task-form/edit-task-form.component';
+import { TaskFormComponent } from './task-form/task-form.component';
 
 
 @NgModule({
-  declarations: [HomeComponent, MainTaskListComponent, TaskCardComponent, EditTaskFormComponent],
+  declarations: [HomeComponent, MainTaskListComponent, TaskCardComponent, TaskFormComponent],
   imports: [
     CommonModule,
     HomeRoutingModule,

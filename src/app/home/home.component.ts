@@ -13,7 +13,8 @@ export class HomeComponent implements OnInit, OnDestroy {
 
   taskSubscription: Subscription;
   userSubscription: Subscription;
-  showEditForm: boolean;
+  showEditForm = false;
+  showNewTaskForm = false;
   taskToEdit: Task;
 
   constructor(
@@ -25,13 +26,13 @@ export class HomeComponent implements OnInit, OnDestroy {
     this.userSubscription = this.userService.user$.subscribe( user => {
       console.log(user.getIdToken());
     });
-    this.taskSubscription = this.taskService.editForm$.subscribe( task => {
+    this.taskSubscription = this.taskService.contentForm$.subscribe( task => {
       this.openEditForm();
       this.taskToEdit = task;
-      console.log(this.taskToEdit)
+      console.log(this.taskToEdit);
     });
+    this.showEditForm = false;
 
-    this.showEditForm = true;
   }
 
   ngOnDestroy(): void {
@@ -45,5 +46,22 @@ export class HomeComponent implements OnInit, OnDestroy {
 
   closeEditForm(){
     this.showEditForm = false;
+  }
+
+  openNewTaskForm(){
+    this.taskService.editForm({completed: false,id: 0,taskDescription: '',taskDetails:[],taskTitle:''});
+    this.showNewTaskForm = true;
+  }
+
+  closeNewTaskForm(){
+    this.showNewTaskForm = false;
+  }
+
+  updateTask(taskToUpdate: Task){
+    this.taskService.update(taskToUpdate);
+  }
+
+  newTask(task){
+    this.taskService.createTask(task);
   }
 }

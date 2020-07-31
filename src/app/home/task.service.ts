@@ -10,10 +10,10 @@ import { Subject, Observable, BehaviorSubject } from 'rxjs';
 export class TaskService {
 
   private taskSubject: BehaviorSubject<Task[]>;
-  private editFormSubject: BehaviorSubject<Task>;
+  private contentFormSubject: BehaviorSubject<Task>;
 
   public tasks$: Observable<Task[]>;
-  public editForm$: Observable<Task>;
+  public contentForm$: Observable<Task>;
 
   tasks: Task[] = [
     {
@@ -58,9 +58,9 @@ export class TaskService {
 
   constructor(userService: UserService) {
     this.taskSubject = new BehaviorSubject<Task[]>(this.tasks);
-    this.editFormSubject = new BehaviorSubject<Task>(null);
+    this.contentFormSubject = new BehaviorSubject<Task>(null);
     this.tasks$ = this.taskSubject.asObservable();
-    this.editForm$ = this.editFormSubject.asObservable();
+    this.contentForm$ = this.contentFormSubject.asObservable();
   }
 
   createTask(newTask: Task){
@@ -83,6 +83,6 @@ export class TaskService {
   }
 
   editForm(task: Task){
-    this.editFormSubject.next(task);
+    this.contentFormSubject.next(task);
   }
 }
