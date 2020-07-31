@@ -1,6 +1,7 @@
 <ng-container *ngFor="let task of tasks$ | async">
   <app-task-card
   [task]="task"
+  (checkSubtaskEvent)="checkSubtask($event)"
   (deleteTaskEvent)="deleteTask($event)"
   (editTaskEvent)="editTask($event)"
 ></app-task-card>

@@ -1,7 +1,9 @@
+import { map } from 'rxjs/operators';
 import { Subscription, Observable } from 'rxjs';
 import { TaskService } from './../task.service';
 import { Component, OnInit, Input, OnDestroy, Output, EventEmitter } from '@angular/core';
 import { Task } from '../task.type';
+import { Subtask } from '../subtask.type';
 
 @Component({
   selector: 'app-main-task-list',
@@ -32,5 +34,9 @@ export class MainTaskListComponent implements OnInit {
 
   editTask(task: Task){
     this.taskService.editForm(task);
+  }
+
+  checkSubtask(newTask: Task){
+    this.taskService.update(newTask);
   }
 }

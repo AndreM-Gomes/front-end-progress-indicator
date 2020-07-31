@@ -42,10 +42,10 @@ export class EditTaskFormComponent implements OnInit {
     this.closeFormEvent.emit(null);
     this.taskService.update({
       id: this.taskId,
-      progress: [0, this.taskDetails.length],
       taskDescription: this.taskDescription.value,
       taskDetails: this.taskDetails.map(taskDetail => taskDetail.value),
-      taskTitle: this.taskTitle.value
+      taskTitle: this.taskTitle.value,
+      completed: false
     });
   }
 

@@ -1,8 +1,8 @@
 <div class="progress-card">
   <div class="task-title">{{task.taskTitle}}</div>
   <div class="progress-indicator">
-    <progress [max]="task.progress[1]" [value]="task.progress[0]"></progress>
-    {{task.progress[0]}}/{{task.progress[1]}}
+    <progress [max]="task.taskDetails.length" [value]="completedTasks()"></progress>
+    {{completedTasks()}}/{{task.taskDetails.length}}
   </div>
   <details>
     <summary class="task-description">
@@ -10,7 +10,7 @@
     </summary>
     <div class="task-details">
         <ol>
-          <li *ngFor="let taskDetail of task.taskDetails" ><input type="checkbox" name="" id="">{{taskDetail}}</li>
+          <li *ngFor="let taskDetail of task.taskDetails" ><input type="checkbox" [checked]="taskDetail.completed" (change)="checkSubtask($event, taskDetail.id, task)" name="" id="">{{taskDetail.name}}</li>
         </ol>
       <button class="delete" (click)="deleteTask(task.id)">Delete</button>
       <button (click)="openForm(task)">Edit</button>

@@ -18,24 +18,41 @@ export class TaskService {
   tasks: Task[] = [
     {
       id: 1,
-      progress: [10, 100],
       taskDescription: 'Estudar toda a stack Spring',
-      taskDetails: ['MVC', 'Data'],
-      taskTitle: 'Estudar Spring'
+      taskDetails: [
+        {
+          id: 1,
+          name: 'MVC',
+          completed: true
+        },
+        {
+          id: 2,
+          name: 'Security',
+          completed: false
+        }
+      ],
+      taskTitle: 'Estudar Spring',
+      completed: false
     },
     {
       id: 2,
-      progress: [10, 100],
       taskDescription: 'Estudar DAO e transactions Hibernate',
       taskDetails: [],
-      taskTitle: 'Estudar Hibernate'
+      taskTitle: 'Estudar Hibernate',
+      completed: false
     },
     {
       id: 3,
-      progress: [10, 100],
       taskDescription: 'Estudar Angular como PWA e etc',
-      taskDetails: ['Forms', 'Routing', 'RxJS'],
-      taskTitle: 'Angular'
+      taskDetails: [
+        {
+          id: 1,
+          name: 'Routing',
+          completed: false
+        }
+      ],
+      taskTitle: 'Angular',
+      completed: false
     }
   ];
 
@@ -53,7 +70,11 @@ export class TaskService {
 
   update(newTask: Task){
     const tasks = this.taskSubject.getValue();
-    this.taskSubject.next([...tasks.filter(task => task.id !== newTask.id), newTask]);
+    this.taskSubject.next([...tasks.filter(task => task.id !== newTask.id), newTask].sort((a, b) => {
+      const completedTaskA = a.taskDetails.filter( subtask => subtask.completed === true);
+      const completedTaskB = b.taskDetails.filter( subtask => subtask.completed === true);
+      return completedTaskA.length - completedTaskB.length;
+    }));
   }
 
   deleteTask(id: number){

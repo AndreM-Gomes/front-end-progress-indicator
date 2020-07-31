@@ -10,10 +10,12 @@ export class TaskCardComponent implements OnInit {
   @Input() task: Task;
   @Output() deleteTaskEvent: EventEmitter<number>;
   @Output() editTaskEvent: EventEmitter<Task>;
+  @Output() checkSubtaskEvent: EventEmitter<Task>;
 
   constructor() {
     this.deleteTaskEvent = new EventEmitter<number>();
     this.editTaskEvent = new EventEmitter<Task>();
+    this.checkSubtaskEvent = new EventEmitter<Task>();
   }
 
   ngOnInit(): void {
@@ -25,5 +27,28 @@ export class TaskCardComponent implements OnInit {
 
   openForm(task: Task){
     this.editTaskEvent.emit(task);
+  }
+
+  completedTasks(): number{
+    return this.task.taskDetails.filter(
+      subtask => subtask.completed === true
+    ).length;
+  }
+
+  checkSubtask(event, subtaskId: number, task: Task){
+    const targetSubtask = this.task.taskDetails.find( subtask => subtask.id === subtaskId);
+    const newSubtask = {
+      id: subtaskId,
+      completed: event.target.checked,
+      name: targetSubtask.name
+    }
+    const otherTasks = this.task.taskDetails.filter( subtask => subtask.id !== subtaskId);
+    this.checkSubtaskEvent.emit({
+      completed: task.completed,
+      id: task.id,
+      taskDescription: task.taskDescription,
+      taskDetails: [newSubtask, ...otherTasks],
+      taskTitle: task.taskTitle
+    });
   }
 }
