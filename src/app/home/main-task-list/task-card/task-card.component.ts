@@ -1,5 +1,5 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
-import { Task } from '../../task.type';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {Task} from '../../task.type';
 
 @Component({
   selector: 'app-task-card',
@@ -21,28 +21,28 @@ export class TaskCardComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  deleteTask(id: number){
+  deleteTask(id: number) {
     this.deleteTaskEvent.emit(id);
   }
 
-  openForm(task: Task){
+  openForm(task: Task) {
     this.editTaskEvent.emit(task);
   }
 
-  completedTasks(): number{
+  completedTasks(): number {
     return this.task.taskDetails.filter(
       subtask => subtask.completed === true
     ).length;
   }
 
-  checkSubtask(event, subtaskId: number, task: Task){
-    const targetSubtask = this.task.taskDetails.find( subtask => subtask.id === subtaskId);
+  checkSubtask(event, subtaskId: number, task: Task) {
+    const targetSubtask = this.task.taskDetails.find(subtask => subtask.id === subtaskId);
     const newSubtask = {
       id: subtaskId,
       completed: event.target.checked,
       name: targetSubtask.name
-    }
-    const otherTasks = this.task.taskDetails.filter( subtask => subtask.id !== subtaskId);
+    };
+    const otherTasks = this.task.taskDetails.filter(subtask => subtask.id !== subtaskId);
     this.checkSubtaskEvent.emit({
       completed: task.completed,
       id: task.id,

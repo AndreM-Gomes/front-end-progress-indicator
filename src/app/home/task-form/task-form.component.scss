@@ -1,12 +1,14 @@
-*{
+* {
   background: none;
 }
-.container{
+
+.container {
   display: flex;
-  flex-flow: column wrap ;
+  flex-flow: column wrap;
   align-items: center;
 }
-.wraper{
+
+.wraper {
   display: flex;
   flex-flow: column wrap;
 
@@ -18,33 +20,37 @@
   padding: 20px;
 
   border: 1px gray solid;
-  box-shadow: 0px 4px 24px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.3);
 
   width: fit-content;
 
   font-size: 24px;
 }
-label{
+
+label {
   padding: 7px;
   margin: 7px;
   display: flex;
   align-items: center;
   justify-content: space-between;
 }
-input[type=text]{
+
+input[type=text] {
   padding: 5px;
   font-size: 24px;
   border: none;
   border-bottom: solid 1px gray;
 }
-.details{
+
+.details {
   display: flex;
-  flex-flow: column wrap;
+  flex-flow: column nowrap;
   align-items: flex-start;
   padding: 7px;
 }
-.close-button{
-  position:absolute;
+
+.close-button {
+  position: absolute;
   font-size: 14px;
   top: 7px;
   right: 7px;
@@ -52,13 +58,25 @@ input[type=text]{
   height: 20px;
   width: fit-content;
 }
-#update-button{
+
+#update-button {
   width: 80px;
   height: 40px;
   align-self: center;
 }
-#addNewTaskDetail{
+
+#addNewTaskDetail {
   align-self: center;
   margin-left: 10px;
   font-size: 15px;
+}
+
+.subtask {
+  display: flex;
+  flex-flow: row wrap;
+  margin: 5px;
+
+  button {
+    margin-left: 10px;
+  }
 }

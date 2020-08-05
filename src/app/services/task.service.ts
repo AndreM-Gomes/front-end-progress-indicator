@@ -1,20 +1,14 @@
-import { UserService } from './../user.service';
-import { HomeModule } from './home.module';
-import { Injectable } from '@angular/core';
-import { Task } from './task.type';
-import { Subject, Observable, BehaviorSubject } from 'rxjs';
+import {UserService} from '../services/user.service';
+import {Injectable} from '@angular/core';
+import {Task} from '../home/task.type';
+import {BehaviorSubject, Observable} from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class TaskService {
 
-  private taskSubject: BehaviorSubject<Task[]>;
-  private contentFormSubject: BehaviorSubject<Task>;
-
   public tasks$: Observable<Task[]>;
-  public contentForm$: Observable<Task>;
-
   tasks: Task[] = [
     {
       id: 1,
@@ -55,34 +49,29 @@ export class TaskService {
       completed: false
     }
   ];
+  private taskSubject: BehaviorSubject<Task[]>;
 
   constructor(userService: UserService) {
     this.taskSubject = new BehaviorSubject<Task[]>(this.tasks);
-    this.contentFormSubject = new BehaviorSubject<Task>(null);
     this.tasks$ = this.taskSubject.asObservable();
-    this.contentForm$ = this.contentFormSubject.asObservable();
   }
 
-  createTask(newTask: Task){
+  createTask(newTask: Task) {
     const tasks = this.taskSubject.getValue();
     this.taskSubject.next([...tasks, newTask]);
   }
 
-  update(newTask: Task){
+  update(newTask: Task) {
     const tasks = this.taskSubject.getValue();
     this.taskSubject.next([...tasks.filter(task => task.id !== newTask.id), newTask].sort((a, b) => {
-      const completedTaskA = a.taskDetails.filter( subtask => subtask.completed === true);
-      const completedTaskB = b.taskDetails.filter( subtask => subtask.completed === true);
+      const completedTaskA = a.taskDetails.filter(subtask => subtask.completed === true);
+      const completedTaskB = b.taskDetails.filter(subtask => subtask.completed === true);
       return completedTaskA.length - completedTaskB.length;
     }));
   }
 
-  deleteTask(id: number){
+  deleteTask(id: number) {
     const tasks = this.taskSubject.getValue();
     this.taskSubject.next(tasks.filter(task => task.id !== id));
-  }
-
-  editForm(task: Task){
-    this.contentFormSubject.next(task);
   }
 }

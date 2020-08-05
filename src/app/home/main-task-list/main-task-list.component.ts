@@ -1,9 +1,8 @@
-import { map } from 'rxjs/operators';
-import { Subscription, Observable } from 'rxjs';
-import { TaskService } from './../task.service';
-import { Component, OnInit, Input, OnDestroy, Output, EventEmitter } from '@angular/core';
-import { Task } from '../task.type';
-import { Subtask } from '../subtask.type';
+import {TaskFormService} from './../../services/task-form.service';
+import {Observable} from 'rxjs';
+import {TaskService} from '../../services/task.service';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {Task} from '../task.type';
 
 @Component({
   selector: 'app-main-task-list',
@@ -11,32 +10,34 @@ import { Subtask } from '../subtask.type';
   styleUrls: ['./main-task-list.component.scss']
 })
 export class MainTaskListComponent implements OnInit {
-  private taskService: TaskService;
   @Input() tasks$: Observable<Task[]>;
   @Output() openEditFormEvent: EventEmitter<Task>;
 
-  constructor(taskService: TaskService) {
-    this.taskService = taskService;
+  constructor(
+    private taskService: TaskService,
+    private taskFormService: TaskFormService
+  ) {
     this.tasks$ = this.taskService.tasks$;
     this.openEditFormEvent = new EventEmitter<Task>();
   }
+
   ngOnInit(): void {
     this.openEditFormEvent = new EventEmitter<Task>();
   }
 
-  deleteTask(id: number){
+  deleteTask(id: number) {
     this.taskService.deleteTask(id);
   }
 
-  openEditForm(task: Task){
+  openEditForm(task: Task) {
     this.openEditFormEvent.emit(task);
   }
 
-  editTask(task: Task){
-    this.taskService.editForm(task);
+  editTask(task: Task) {
+    this.taskFormService.openEditTask(task);
   }
 
-  checkSubtask(newTask: Task){
+  checkSubtask(newTask: Task) {
     this.taskService.update(newTask);
   }
 }

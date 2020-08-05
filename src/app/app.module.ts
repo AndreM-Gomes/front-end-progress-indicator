@@ -1,11 +1,11 @@
-import { AngularFireAuthModule } from '@angular/fire/auth/';
-import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import {AngularFireAuthModule} from '@angular/fire/auth/';
+import {BrowserModule} from '@angular/platform-browser';
+import {NgModule} from '@angular/core';
 
-import { AppRoutingModule } from './app-routing.module';
-import { AppComponent } from './app.component';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { AngularFireModule } from '@angular/fire';
+import {AppRoutingModule} from './app-routing.module';
+import {AppComponent} from './app.component';
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import {AngularFireModule} from '@angular/fire';
 
 const firebaseConfig = {
   apiKey: 'AIzaSyD33C_XCCsHYSCoOVpnBMHXv4V6ALGhUNU',
@@ -33,4 +33,5 @@ const firebaseConfig = {
   providers: [],
   bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {
+}

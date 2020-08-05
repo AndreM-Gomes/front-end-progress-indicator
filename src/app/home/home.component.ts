@@ -1,8 +1,10 @@
-import { Subscription } from 'rxjs';
-import { TaskService } from './task.service';
-import { UserService } from './../user.service';
-import { Component, OnInit, OnDestroy } from '@angular/core';
-import { Task } from './task.type';
+import {FormEventType} from './form-event.type';
+import {TaskFormService} from './../services/task-form.service';
+import {Subscription} from 'rxjs';
+import {TaskService} from './../services/task.service';
+import {UserService} from './../services/user.service';
+import {Component, OnDestroy, OnInit} from '@angular/core';
+import {Task} from './task.type';
 
 @Component({
   selector: 'app-home',
@@ -13,55 +15,71 @@ export class HomeComponent implements OnInit, OnDestroy {
 
   taskSubscription: Subscription;
   userSubscription: Subscription;
+  taskFormSubscription: Subscription;
+
   showEditForm = false;
   showNewTaskForm = false;
   taskToEdit: Task;
 
   constructor(
     private userService: UserService,
-    private taskService: TaskService
-    ) { }
+    private taskService: TaskService,
+    private taskFormService: TaskFormService
+  ) {
+  }
 
   ngOnInit(): void {
-    this.userSubscription = this.userService.user$.subscribe( user => {
+    this.userSubscription = this.userService.user$.subscribe(user => {
       console.log(user.getIdToken());
     });
-    this.taskSubscription = this.taskService.contentForm$.subscribe( task => {
-      this.openEditForm();
-      this.taskToEdit = task;
-      console.log(this.taskToEdit);
-    });
-    this.showEditForm = false;
 
+    this.taskFormSubscription = this.taskFormService.form$.subscribe(
+      taskFormEvent => {
+        switch (taskFormEvent.type) {
+          case FormEventType.OPEN_EDIT_FORM:
+            this.showEditForm = true;
+            this.taskToEdit = taskFormEvent.payload;
+            break;
+          case FormEventType.CLOSE_EDIT_FORM:
+            this.showEditForm = false;
+            break;
+          case FormEventType.OPEN_NEW_FORM:
+            this.showNewTaskForm = true;
+            break;
+          case FormEventType.CLOSE_NEW_FORM:
+            this.showNewTaskForm = false;
+            break;
+          default:
+            break;
+        }
+      }
+    );
+    this.showEditForm = false;
+  }
+
+  closeEditForm() {
+    this.taskFormService.closeEditTask();
+  }
+
+  closeNewTaskForm(){
+    this.taskFormService.closeNewTask();
+  }
+
+  updateTask(task: Task) {
+    this.taskService.update(task);
+  }
+
+  newTask(task: Task) {
+    this.taskService.createTask(task);
+  }
+
+  openNewTaskForm() {
+    this.taskFormService.openNewTask();
   }
 
   ngOnDestroy(): void {
     this.userSubscription.unsubscribe();
     this.taskSubscription.unsubscribe();
-  }
-
-  openEditForm(){
-    this.showEditForm = true;
-  }
-
-  closeEditForm(){
-    this.showEditForm = false;
-  }
-
-  openNewTaskForm(){
-    this.taskService.editForm({completed: false,id: 0,taskDescription: '',taskDetails:[],taskTitle:''});
-    this.showNewTaskForm = true;
-  }
-
-  closeNewTaskForm(){
-    this.showNewTaskForm = false;
-  }
-
-  updateTask(taskToUpdate: Task){
-    this.taskService.update(taskToUpdate);
-  }
-
-  newTask(task){
-    this.taskService.createTask(task);
+    this.taskFormSubscription.unsubscribe();
   }
 }

@@ -1,25 +1,26 @@
 <div class="container">
   <div class="wraper">
-    <label for="taskTItle">
+    <label for="taskTitle">
       Task title:
-      <input type="text" [formControl]="taskTitle" name="taskTitle" id="taskTitle" [value]="taskTitle.value">
+      <input [(ngModel)]="taskTitle" id="taskTitle" type="text">
     </label>
     <label for="taskDescription">
       Task Description:
-      <input type="text" [formControl]="taskDescription" name="taskDescription" id="taskDescription" [value]="taskDescription.value">
+      <input [(ngModel)]="taskDescription" id="taskDescription" name="taskDescription" type="text">
     </label>
 
-    <label for="taskDetails" class="details">
+    <label class="details" for="taskDetails">
       Task Details:
       <label for="newTaskDetails">
-        <input type="text" (keydown)="addNewTaskOnEnter($event)" [formControl]="newTaskDetail" [value]="newTaskDetail.value">
-        <button id="addNewTaskDetail" (click)="addNewTaskDetail()">New Detail</button>
+        <input (keydown)="addNewTaskOnEnter($event)" [(ngModel)]="newTaskDetail" type="text">
+        <button (click)="addNewTaskDetail()" id="addNewTaskDetail">New Detail</button>
       </label>
-      <ng-container  *ngFor="let detail of taskDetails">
-        <input  type="text" [formControl]="detail" [value]="detail.value">
-      </ng-container>
+      <div *ngFor="let detail of subtasks" class="subtask">
+        <input [(ngModel)]="detail.name" type="text">
+        <button (click)="deleteSubtask(detail.id)">Delete</button>
+      </div>
     </label>
-  <button class="close-button" (click)="closeForm()">Close</button>
-  <button id="update-button" (click)="emitData()">Ok</button>
+    <button (click)="emitData()" class="close-button">Close</button>
+    <button (click)="emitData()" id="update-button">Ok</button>
   </div>
 </div>

@@ -1,63 +1,106 @@
-import { Subtask } from './../subtask.type';
-import { TaskService } from './../task.service';
-import { Task } from './../task.type';
-import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
-import { FormControl } from '@angular/forms';
+import {FormEventType} from './../form-event.type';
+import {TaskFormService} from './../../services/task-form.service';
+import {Subscription} from 'rxjs';
+import {Subtask} from './../subtask.type';
+import {TaskService} from '../../services/task.service';
+import {Task} from './../task.type';
+import {Component, EventEmitter, OnDestroy, OnInit, Output} from '@angular/core';
 
 @Component({
   selector: 'app-task-form',
   templateUrl: './task-form.component.html',
   styleUrls: ['./task-form.component.scss']
 })
-export class TaskFormComponent implements OnInit {
+export class TaskFormComponent implements OnInit, OnDestroy {
 
   @Output() closeFormEvent = new EventEmitter<Task>();
   @Output() emitDataEvent = new EventEmitter<Task>();
 
-  taskTitle: FormControl;
-  taskDescription: FormControl;
-  taskDetails: FormControl[];
-  newTaskDetail: FormControl;
+  taskTitle = '';
+  taskDescription = '';
+  subtasks: Subtask[] = [];
+  newTaskDetail = '';
   taskId: number;
+  tempTask: Task;
+  taskFormSubscription: Subscription;
+  taskServiceSubscription: Subscription;
+  private actualState: FormEventType;
 
-  constructor(private taskService: TaskService) {
-    this.newTaskDetail = new FormControl('');
-    this.taskTitle = new FormControl('');
-    this.taskDescription = new FormControl('');
-    this.taskService.contentForm$.subscribe( task => {
-      this.taskId = task.id;
-      this.taskTitle.setValue(task.taskTitle);
-      this.taskDescription.setValue(task.taskDescription);
-      this.taskDetails = task.taskDetails.map( taskDetail => new FormControl(taskDetail.name)) || [];
-    });
+  constructor(
+    private taskService: TaskService,
+    private taskFormService: TaskFormService
+  ) {
+
+    this.taskFormSubscription = this.taskFormService.form$.subscribe(
+      taskFormEvent => {
+        switch (taskFormEvent.type) {
+          case FormEventType.OPEN_EDIT_FORM:
+            this.actualState = taskFormEvent.type;
+            this.taskTitle = taskFormEvent.payload.taskTitle;
+            this.taskDescription = taskFormEvent.payload.taskDescription;
+            this.subtasks = taskFormEvent.payload.taskDetails;
+            this.taskId = taskFormEvent.payload.id;
+            break;
+          case FormEventType.OPEN_NEW_FORM:
+            this.actualState = taskFormEvent.type;
+            break;
+          default:
+            break;
+        }
+      }
+    );
   }
 
-  ngOnInit(): void { }
+  ngOnInit(): void {
 
-  closeForm(){
-    this.closeFormEvent.emit(null);
   }
 
-  emitData(){
-    this.closeFormEvent.emit(null);
+  emitData() {
     this.emitDataEvent.emit({
+      completed: false,
       id: this.taskId,
-      taskDescription: this.taskDescription.value,
-      taskDetails: this.taskDetails.map(taskDetail => { return {completed: false,id:0,name: taskDetail.value}}),
-      taskTitle: this.taskTitle.value,
-      completed: false
+      taskDescription: this.taskDescription,
+      taskDetails: this.subtasks.filter(subtask => subtask.name.length > 0),
+      taskTitle: this.taskTitle
     });
+    this.closeForm();
   }
 
-  addNewTaskDetail(){
-    if (this.newTaskDetail.value.length > 0){
-      this.taskDetails.push(new FormControl(this.newTaskDetail.value));
-      this.newTaskDetail.setValue('');
+  closeForm() {
+    switch (this.actualState) {
+      case FormEventType.OPEN_EDIT_FORM:
+        this.taskFormService.closeEditTask();
+        break;
+      case FormEventType.OPEN_NEW_FORM:
+        this.taskFormService.closeNewTask();
+        break;
+      default:
+        break;
     }
   }
-  addNewTaskOnEnter(event: KeyboardEvent){
-    if (event.key === 'Enter'){
+
+  addNewTaskDetail() {
+    if (this.newTaskDetail.length > 0) {
+      this.subtasks.push({
+        id: this.subtasks.length + 1,
+        completed: false,
+        name: this.newTaskDetail
+      });
+      this.newTaskDetail = '';
+    }
+  }
+
+  deleteSubtask(id: number) {
+    this.subtasks = this.subtasks.filter(task => task.id !== id);
+  }
+
+  addNewTaskOnEnter(event: KeyboardEvent) {
+    if (event.key === 'Enter') {
       this.addNewTaskDetail();
     }
+  }
+
+  ngOnDestroy() {
+    this.taskFormSubscription.unsubscribe();
   }
 }

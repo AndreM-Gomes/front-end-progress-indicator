@@ -1,6 +1,6 @@
-import { Subtask } from './subtask.type';
+import {Subtask} from './subtask.type';
 
-export interface Task{
+export interface Task {
   id: number;
   taskTitle: string;
   taskDescription: string;

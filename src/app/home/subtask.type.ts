@@ -1,4 +1,4 @@
-export interface Subtask{
+export interface Subtask {
   id: number;
   name: string;
   completed: boolean;

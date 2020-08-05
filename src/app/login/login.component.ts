@@ -1,14 +1,13 @@
-import { UserService } from '../../app/user.service';
-import { Component, OnInit} from '@angular/core';
-import { Router } from '@angular/router';
-import { Subscription } from 'rxjs';
+import {UserService} from '../services/user.service';
+import {Component, OnInit} from '@angular/core';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss']
 })
-export class LoginComponent implements OnInit{
+export class LoginComponent implements OnInit {
 
   constructor(
     private userService: UserService,
@@ -19,9 +18,9 @@ export class LoginComponent implements OnInit{
   ngOnInit(): void {
   }
 
-  async signInWithGoogle(){
+  async signInWithGoogle() {
     const user = await this.userService.googleSignIn();
-    if (user){
+    if (user) {
       this.router.navigate(['/home']);
     }
   }

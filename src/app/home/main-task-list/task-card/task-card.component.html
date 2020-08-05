@@ -9,13 +9,13 @@
       {{task.taskDescription}}
     </summary>
     <div class="task-details">
-        <ol>
-          <li *ngFor="let taskDetail of task.taskDetails" >
-            <input type="checkbox" [checked]="taskDetail.completed" (change)="checkSubtask($event, taskDetail.id, task)" name="" id="">
-            {{taskDetail.name}}
-          </li>
-        </ol>
-      <button class="delete" (click)="deleteTask(task.id)">Delete</button>
+      <ol>
+        <li *ngFor="let taskDetail of task.taskDetails">
+          <input [(ngModel)]="taskDetail.completed" type="checkbox">
+          {{taskDetail.name}}
+        </li>
+      </ol>
+      <button (click)="deleteTask(task.id)" class="delete">Delete</button>
       <button (click)="openForm(task)">Edit</button>
     </div>
   </details>

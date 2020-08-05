@@ -1,9 +1,10 @@
-#main-container{
+#main-container {
   display: flex;
   flex-flow: row wrap;
   margin: 10px auto;
 }
-#nav-bar{
+
+#nav-bar {
   display: flex;
   flex-flow: row wrap;
   justify-content: space-between;
@@ -14,67 +15,79 @@
   background-color: darken($color: #f3eeee, $amount: 2);
   position: sticky;
   top: 0;
-  input[type=text]{
+
+  input[type=text] {
     border-radius: 7px;
     border: 0px;
     font-size: 30px;
     padding: 2px 10px;
   }
-  *{
+
+  * {
     background-color: darken($color: #f3eeee, $amount: 3);
   }
 }
-a{
+
+a {
   text-decoration: none;
 
 }
-a:hover{
+
+a:hover {
   color: lighten($color: #1d4d4f, $amount: 40%);
 }
 
-.navigation-links{
+.navigation-links {
   display: flex;
   flex-direction: row;
   justify-content: space-around;
   width: 400px;
 }
 
-h1{
+h1 {
   font-size: 46px;
   font-weight: 200;
   padding: 5px;
   align-self: center;
 }
-main{
+
+main {
   display: flex;
   flex-grow: 5;
   flex-wrap: wrap-reverse;
   flex-direction: column;
   justify-content: space-between;
 }
-.progress-card{
+
+.progress-card {
   font-size: 25px;
   margin-top: 20px;
   padding: 10px;
-  font-family: 'Roboto Slab',serif;
+  font-family: 'Roboto Slab', serif;
 
 }
-.task-title{
+
+.task-title {
   font-size: 40px;
   font-weight: 400;
 }
-.task-description{
+
+.task-description {
   font-weight: 100;
 }
-.progress-indicator{
+
+.progress-indicator {
   padding: 5px;
 }
-.task-details{
+
+.task-details {
   margin: 10px;
-  li{
+
+  li {
     padding: 10px;
   }
-  button{
+
+  button {
     padding: 10px;
     margin: 10px;
     width: 75px;
@@ -83,61 +96,76 @@ main{
     font-size: 20px;
     transition: ease-in-out 0.3s;
   }
-  button:hover{
+
+  button:hover {
     cursor: pointer;
-    background-color:darken($color: #f3eeee, $amount: 15) ;
+    background-color: darken($color: #f3eeee, $amount: 15);
 
   }
-  button.delete{
+
+  button.delete {
     color: rgb(59, 18, 18);
   }
-  input[type=checkbox]{
+
+  input[type=checkbox] {
     width: 20px;
     height: 20px;
   }
 }
-progress[value]{
+
+progress[value] {
   height: 10px;
   margin: 10px;
 
   animation: animate-progress 2s ease-in-out;
 }
 
-@keyframes animate-progress{
-  0%{
+@keyframes animate-progress {
+  0% {
     width: 0;
   }
-  100%{
+  100% {
     color: red;
   }
 }
+
 details[open] summary ~ * {
   animation: sweep .7s ease-out;
 }
+
 @keyframes sweep {
-  0%    {opacity: 0; margin-right: -10px;}
-  100%  {opacity: 1; margin-right: 0px}
+  0% {
+    opacity: 0;
+    margin-right: -10px;
+  }
+  100% {
+    opacity: 1;
+    margin-right: 0px
+  }
 }
 
-aside{
+aside {
 
   flex-grow: 1;
-  li{
+
+  li {
     padding: 10px;
   }
-  li:before{
+
+  li:before {
     content: '> ';
   }
 }
 
-.new-task button{
+.new-task button {
   position: fixed;
   right: 5vw;
   top: 90vh;
   font-size: 40px;
   border: none;
 }
-.edit-task-form{
+
+.edit-task-form {
   position: absolute;
   width: 100vw;
   height: 90vh;
